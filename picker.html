@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Palindrome File Picker PoC</title>
+  <script type="text/javascript" src="https://js.live.net/v7.2/OneDrive.js"></script>
+</head>
+<body>
+  <h2>🔍 Palindrome File Picker PoC</h2>
+  <button onclick="launchPicker()">Open File Picker</button>
+
+  <pre id="output" style="margin-top:20px; background:#f4f4f4; padding:12px; border-radius:8px;"></pre>
+
+  <script>
+    function launchPicker() {
+      var odOptions = {
+        clientId: "6040fbff-0e17-4c99-93c3-23e98b0740b9",
+        action: "query", // Use "upload" to allow file upload
+        multiSelect: true,
+        openInNewWindow: true,
+        advanced: {
+          redirectUri: "https://app.palindrome.co/auth/callback",
+          filter: ".pdf,.docx,.xlsx,.txt" // Optional: restrict file types
+        },
+        success: function(files) {
+          document.getElementById("output").textContent = JSON.stringify(files, null, 2);
+        },
+        cancel: function() {
+          document.getElementById("output").textContent = "❌ Picker cancelled.";
+        },
+        error: function(e) {
+          document.getElementById("output").textContent = "⚠️ Error: " + JSON.stringify(e, null, 2);
+        }
+      };
+      OneDrive.open(odOptions);
+    }
+  </script>
+</body>
+</html>
+
